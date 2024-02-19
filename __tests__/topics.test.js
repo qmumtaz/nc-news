@@ -7,7 +7,7 @@ const testData = require("../db/data/test-data/index.js");
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
-describe('/api/topics', () => {
+describe.only('/api/topics', () => {
     test('return array of object for the topics', () => {
         return request(app)
         .get("/api/topics")

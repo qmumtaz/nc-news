@@ -18,9 +18,19 @@ app.get('/api/articles/:article_id', getArticleById);
 
 
 
+app.use((err, request, response, next) => {
+  
+  response.status(400).send({msg: "Bad request"})
+  next(err)
+})
+
+
 // app.listen(8080, () => {
 //   console.log(`Server is listening on port 9090...`);
 // });
 
+app.use((err, req, res, next) => {
+  res.status(500).send({ msg: "Internal server error" });
+});
 
 module.exports = app;

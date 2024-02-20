@@ -9,6 +9,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe('/api/article/:article_1/comments', () => {
+
     test('GET: 200 response should return with an array of objects with request of api/aricles/1/comments ', () => {
       return request(app)
         .get("/api/articles/1/comments")
@@ -114,9 +115,19 @@ describe('/api/article/:article_1/comments', () => {
           }) 
       });
 
-
+      test('DELETE: 204 response with no content', () => {
+        return request(app)
+          .delete("/api/comments/18")
+          .expect(204);
+      });
  
-
+      test('DELETE: 404 response with no content', () => {
+        return request(app)
+          .delete("/api/comments/200")
+          .expect(404).then((response) => {
+            expect(response.body.msg).toBe("Comment not found");
+          }) 
+      });
     
 
 })

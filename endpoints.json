@@ -46,7 +46,7 @@
     "description": "serves an array of all comment with article id",
     "queries": [],
     "exampleResponse": {
-      "articles": [
+      "comments": [
         {
           "comment_id": 2,
           "votes": 14,
@@ -54,6 +54,18 @@
           "author": "butter_bridge",
           "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
           "article_id": 1
+        }
+      ]
+    }
+  },
+  "POST /api/articles/1/comments": {
+    "description": "responds with username and body",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "username" : "butter_bridge",
+          "body" : "random post....."
         }
       ]
     }

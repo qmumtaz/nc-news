@@ -8,6 +8,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("/api/articles", () => {
+
   test("GET: 200 response should return with an object with request of api/aricles/:id ", () => {
     return request(app)
       .get("/api/articles/1")
@@ -49,6 +50,24 @@ describe("/api/articles", () => {
       });
   });
 
+  test("GET: 400 response when given invalid article id for /api/:article_id", () => {
+    return request(app)
+      .get("/api/articles/hello")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("Bad request");
+      });
+  });
+
+  test("GET: 404 response when given non-existent id for /api/:article_id", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("Not Found");
+      });
+  });
+
   test("PATCH: 200 response should return with an array of objects", () => {
     const votes = {
       inc_votes: 10,
@@ -59,7 +78,21 @@ describe("/api/articles", () => {
       .expect(200)
       .then((response) => {
         const article = response.body.article;
-        expect(article[0].votes).toBe(10);
+        expect(article[0].votes).toEqual(110);
+      });
+  });
+
+  test("PATCH: 200 response should return with an array of objects", () => {
+    const votes = {
+      inc_votes: 10,
+    };
+    return request(app)
+      .patch("/api/articles/2")
+      .send(votes)
+      .expect(200)
+      .then((response) => {
+        const article = response.body.article;
+        expect(article[0].votes).toEqual(10);
       });
   });
 
@@ -89,21 +122,7 @@ describe("/api/articles", () => {
       });
   });
 
-  test("GET: 400 response when given invalid article id for /api/:article_id", () => {
-    return request(app)
-      .get("/api/articles/hello")
-      .expect(400)
-      .then((response) => {
-        expect(response.body.msg).toBe("Bad request");
-      });
-  });
+  
 
-  test("GET: 404 response when given non-existent id for /api/:article_id", () => {
-    return request(app)
-      .get("/api/articles/9999")
-      .expect(404)
-      .then((response) => {
-        expect(response.body.msg).toBe("Not Found");
-      });
-  });
+
 });

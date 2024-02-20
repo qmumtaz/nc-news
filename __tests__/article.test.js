@@ -59,7 +59,7 @@ describe('/api/articles', () => {
         }) 
     });
     
-    test('GET: 404 response when given invalid article id for /api/:article_id', () => {
+    test('GET: 404 response when given non-existent id for /api/:article_id', () => {
       return request(app)
         .get("/api/articles/9999")
         .expect(404).then((response) => {

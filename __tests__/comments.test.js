@@ -121,11 +121,19 @@ describe('/api/article/:article_1/comments', () => {
           .expect(204);
       });
  
-      test('DELETE: 404 response with no content', () => {
+      test('DELETE: 404 with correct status response given non-existent id', () => {
         return request(app)
           .delete("/api/comments/200")
           .expect(404).then((response) => {
             expect(response.body.msg).toBe("Comment not found");
+          }) 
+      });
+
+      test('DELETE: 404 with correct status given the incorrect data type e.g string ', () => {
+        return request(app)
+          .delete("/api/comments/deleted_this_one")
+          .expect(400).then((response) => {
+            expect(response.body.msg).toBe("Bad request");
           }) 
       });
     

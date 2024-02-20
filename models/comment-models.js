@@ -29,9 +29,15 @@ exports.selectPostByArticleId = (body, author, article_id) => {
         RETURNING *;`,
       [body, author, article_id]
     ).then(({ rows }) => {
+      
       if (rows.length === 0) {
         return Promise.reject({ status: 404, msg: 'Article not found' });
       }
+
+      if (rows[0].author === undefined) {
+        return Promise.reject({status : 404, msg : "username does not exist or has not been found."});
+      }
+      
       return rows[0];
     });
   };

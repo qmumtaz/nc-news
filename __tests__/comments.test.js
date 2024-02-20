@@ -29,11 +29,19 @@ describe('/api/article/:article_1/comments', () => {
         });
     });
 
+    test('GET: 404 response when given invalid article id for /api/:article_id/comments', () => {
+      return request(app)
+        .get("/api/articles/9999/comments")
+        .expect(404).then((response) => {
+          expect(response.body.msg).toBe('Not Found');
+        }) 
+    });
 
     test('POST:201 response with the correct object created', () => {
         const newComment = {
-            username : "butter_bridge",
-	         body : "random post....."
+           username : "butter_bridge",
+	         body : "random post.....",
+           randomProp : "some value..."
         };
         return request(app)
           .post("/api/articles/1/comments")
@@ -44,11 +52,13 @@ describe('/api/article/:article_1/comments', () => {
              expect(comment.body).toBe('random post.....')
              expect(comment.article_id).toBe(1)
              expect(comment.author).toBe("butter_bridge")
-          }) 
+             expect(comment.unnecessaryProperty).toBeUndefined();
+          });
+          
       });
 
 
-      test('POST: 400 response with the responds with an appropriate status and error message', () => {
+      test('POST: 400 response with the responds with bad request when no username is given', () => {
         const newComment = {
 	         body : "random post....."
         };
@@ -61,12 +71,52 @@ describe('/api/article/:article_1/comments', () => {
           }) 
       });
 
-    test('GET: 404 response when given invalid article id for /api/:article_id/comments', () => {
+
+      test('POST: 400 response with the responds with an appropriate status and error message when the id is incorrect value type e.g string', () => {
+        const newComment = {
+          username : "butter_bridge",
+	         body : "random post....."
+        };
         return request(app)
-          .get("/api/articles/9999/comments")
-          .expect(404).then((response) => {
-            expect(response.body.msg).toBe('Not Found');
+          .post("/api/articles/wrong_id/comments")
+          .send(newComment)
+          .expect(400)
+          .then((response) => {
+            expect(response.body.msg).toBe('Bad request');
           }) 
       });
+
+      test('POST: 400 response with the responds with an appropriate status and error message when the id is incorrect value e.g 0 or 9999', () => {
+        const newComment = {
+          username : "butter_bridge",
+	         body : "random post....."
+        };
+        return request(app)
+          .post("/api/articles/9999/comments")
+          .send(newComment)
+          .expect(404)
+          .then((response) => {
+            expect(response.body.msg).toBe('Not found');
+          }) 
+      });
+
+      test('POST: 404 response with non-existent author username', () => {
+        const newComment = {
+          username: "userdoesntexist",
+          body: "random post....."     
+        };
+        return request(app)
+          .post("/api/articles/1/comments") 
+          .send(newComment)
+          .expect(404)
+          .then((response) => {
+            expect(response.body.msg).toBe('Not found');
+          }) 
+      });
+
+
+ 
+
+    
 
 })

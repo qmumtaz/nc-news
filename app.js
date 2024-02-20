@@ -23,15 +23,22 @@ app.patch('/api/articles/:article_id', updateArticleByArticleId);
 
 
 
-app.use((err,req,res,next) => {
-  if (err.code === "23502" || err.code === "22P02") {
-    res.status(400).send({ msg: "Bad request" });
-  } else if (err.status && err.msg) {
-    res.status(err.status).send({ msg: err.msg });
-  } else {
-    next(err); 
+app.use((err, req, res, next) => {
+  const errorCodes = ["23502", "22P02"];
+
+  if (errorCodes.includes(err.code)) {
+    return res.status(400).send({ msg: "Bad request" });
   }
- 
+
+  if (err.code === "23503") {
+    return res.status(404).send({ msg: "Not found" });
+  }
+
+  if (err.status && err.msg) {
+    return res.status(err.status).send({ msg: err.msg });
+  }
+
+  next(err);
 });
 
 

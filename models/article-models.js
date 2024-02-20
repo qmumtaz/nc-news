@@ -31,3 +31,19 @@ exports.selectAllArticles = () => {
         return rows;
     });
 }
+
+
+exports.selectPatchArticleById= ( newVote , article_id) => {
+    return db.query(`
+        UPDATE articles
+        SET votes = $1
+        WHERE article_id = $2
+        RETURNING *;
+    `,[article_id, newVote]).then(({rows}) => {
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: 'Not Found' });
+        }
+        return rows;
+    });
+
+}

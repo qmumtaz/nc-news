@@ -50,6 +50,38 @@ describe("/api/articles", () => {
       });
   });
 
+  test("GET: 200  response should return with an array of objects with all with topic from the query e.g mitch", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then((response) => {
+        const articles = response._body.articles;
+        expect(articles.length).toEqual(12);
+        articles.forEach((article) => {
+          expect(article).toMatchObject({
+            article_id: expect.any(Number),
+            title: expect.any(String),
+            topic: expect.any(String),
+            author: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            article_img_url: expect.any(String),
+          });
+          expect(article.topic).toBe("mitch");
+        });
+        
+      });
+  });
+
+  test("GET: 404  response when given incorrect query when topic is incorrect e.g topic=coding ", () => {
+    return request(app)
+      .get("/api/articles?topic=coding")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("Not Found");
+      });
+  });
+
   test("GET: 400 response when given invalid article id for /api/:article_id", () => {
     return request(app)
       .get("/api/articles/hello")

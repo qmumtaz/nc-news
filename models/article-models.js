@@ -9,9 +9,8 @@ exports.selectArticleById = (id) => {
     });
 }
 
-exports.selectAllArticles = () => {
-    return db.query(`
-    SELECT 
+exports.selectAllArticles = (topic) => {
+    let query = ` SELECT 
     articles.author,
     articles.title,
     articles.article_id,
@@ -21,10 +20,19 @@ exports.selectAllArticles = () => {
     articles.article_img_url,
     COUNT(comments.comment_id) AS comment_count
     FROM articles 
-    LEFT JOIN comments ON articles.article_id = comments.article_id
-    GROUP BY  articles.article_id
-    ORDER BY articles.created_at DESC;
-    `).then(({rows}) => {
+    LEFT JOIN comments ON articles.article_id = comments.article_id`;
+
+    const queryVals = [];
+
+    if (topic) {
+        query += ` WHERE  articles.topic = $1`
+        queryVals.push(topic)
+    }
+
+    query += ` GROUP BY  articles.article_id
+    ORDER BY articles.created_at DESC;`
+
+    return db.query(query, queryVals).then(({rows}) => {
         if (rows.length === 0) {
             return Promise.reject({ status: 404, msg: 'Not Found' });
         }

@@ -9,7 +9,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe.only('/api/topics', () => {
-    test('return array of object for the topics', () => {
+    test('GET: 200 return array of object for the topics', () => {
         return request(app)
         .get("/api/topics")
         .expect(200)
@@ -24,7 +24,7 @@ describe.only('/api/topics', () => {
         });
     });
 
-    test('return all endpoints for /api ', () => {
+    test('GET:200 return all endpoints for /api ', () => {
       return request(app)
       .get("/api")
       .expect(200)

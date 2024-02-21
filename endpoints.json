@@ -69,5 +69,40 @@
         }
       ]
     }
+  },
+  "PATCH /api/articles/1/comments": {
+    "description": "responds with object with the article",
+    "queries": [{ "inc_votes" : 1 } ],
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 2,
+          "votes": 15 ,
+          "created_at": "2020-10-31T03:03:00.000Z",
+          "author": "butter_bridge",
+          "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
+          "article_id": 1
+        }
+      ]
+    }
+  },
+
+  "DELETE /api/comments/:comments_id": {
+    "description": "deletes comment for the corrosponding id",
+    "queries": [ ],
+    "exampleResponse": {
+      "comments": [
+       
+      ]
+    }
+  },
+  "GET /api/comments/users": {
+    "description": "returns all the users",
+    "queries": [ ],
+    "exampleResponse": {
+      "comments": [
+       
+      ]
+    }
   }
 }

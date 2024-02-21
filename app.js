@@ -26,6 +26,7 @@ app.get("/api/users", getAllUsers);
 
 
 
+
 app.use((err, req, res, next) => {
   const errorCodes = ["23502", "22P02"];
 

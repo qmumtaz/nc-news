@@ -28,7 +28,7 @@ app.get("/api/users", getAllUsers);
 
 
 app.use((err, req, res, next) => {
-  const errorCodes = ["23502", "22P02"];
+  const errorCodes = ["23502", "22P02", "42601"];
 
   if (errorCodes.includes(err.code)) {
     return res.status(400).send({ msg: "Bad request" });

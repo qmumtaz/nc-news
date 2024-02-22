@@ -74,12 +74,81 @@ describe("/api/articles", () => {
       });
   });
 
+  test("GET: 200  response should return with an array of objects with all with sort by title default descending ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200)
+      .then((response) => {
+        const articles = response._body.articles;     
+        expect(articles.length).toEqual(13);
+         expect(articles[0].title).toBe("Z");
+      });
+  });
+
+  test("GET: 200  response should return with an array of objects with all with sort by author default descending ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=author")
+      .expect(200)
+      .then((response) => {
+        const articles = response._body.articles;
+        expect(articles.length).toEqual(13);
+         expect(articles[0].author).toBe("rogersop");
+      });
+  });
+
+  test("GET: 200  response should return with an array of objects with all with sort by title and order by ascending ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title&order=asc")
+      .expect(200)
+      .then((response) => {
+        const articles = response._body.articles;      
+        expect(articles.length).toEqual(13);
+         expect(articles[0].title).toBe("A");
+      });
+  });
+
   test("GET: 404  response when given incorrect query when topic is incorrect e.g topic=coding ", () => {
     return request(app)
       .get("/api/articles?topic=coding")
       .expect(404)
       .then((response) => {
         expect(response.body.msg).toBe("Not Found");
+      });
+  });
+
+  test("GET: 400 response when given incorrect query when sort_by is incorrect e.g sort_by=telephone ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=telephone")
+      .expect(400)
+      .then((response) => {
+         expect(response.body.msg).toBe("Bad request");
+      });
+  });
+
+  test("GET: 400 response when given incorrect query when sort_by is incorrect e.g sort_by=1234 ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=1235")
+      .expect(400)
+      .then((response) => {
+         expect(response.body.msg).toBe("Bad request");
+      });
+  });
+
+  test("GET: 400 response when given incorrect query when order is incorrect e.g order=dasd ", () => {
+    return request(app)
+      .get("/api/articles?order=123")
+      .expect(400)
+      .then((response) => {
+         expect(response.body.msg).toBe("Bad request");
+      });
+  });
+
+  test("GET: 400 response when given incorrect query when both order  and sort_by are incorrect e.g sort_by=123&order=123 ", () => {
+    return request(app)
+      .get("/api/articles?sort_by=telephone&order=123")
+      .expect(400)
+      .then((response) => {
+         expect(response.body.msg).toBe("Bad request");
       });
   });
 

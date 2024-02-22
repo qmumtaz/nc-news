@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
-const { getAllTopics } = require("./controllers/topics");
-const { getArticleById, getAllArticles , updateArticleByArticleId } = require("./controllers/article");
-const { getCommentByArticleId , postCommentByArticleId , deleteCommentByCommentId } = require("./controllers/comments");
-const { getAllUsers } = require("./controllers/users");
+
+const {topicsRouter} = require("./routes/topics-router")
+const {userRouter} = require("./routes/user-router")
+const {commentRouter} = require("./routes/comment-router")
+const {articleRouter} = require("./routes/article-router")
+
+
 const endpoints = require("./endpoints.json");
 
 app.use(express.json());
@@ -13,15 +16,10 @@ app.get("/api", (req, res) => {
   res.status(200).send(endpoints);
 });
 
-app.get("/api/topics", getAllTopics);
-app.get('/api/articles/:article_id', getArticleById);
-app.get('/api/articles', getAllArticles);
-app.get('/api/articles/:article_id/comments', getCommentByArticleId);
-app.post('/api/articles/:article_id/comments', postCommentByArticleId);
-app.patch('/api/articles/:article_id', updateArticleByArticleId);
-app.delete('/api/comments/:comment_id', deleteCommentByCommentId);
-app.get("/api/users", getAllUsers);
-
+app.use('/api/', topicsRouter);
+app.use('/api/', userRouter);
+app.use('/api/', commentRouter);
+app.use('/api/', articleRouter);
 
 
 

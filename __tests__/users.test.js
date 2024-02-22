@@ -9,7 +9,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 
-describe('/api/users', () => { 
+describe.only('/api/users', () => { 
     test('GET:200 return an array of objects of users', () => {
         return request(app)
                .get("/api/users")

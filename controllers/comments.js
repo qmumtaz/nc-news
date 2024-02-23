@@ -1,4 +1,4 @@
-const {selectCommentByArticleId , selectPostByArticleId, selectDeleteCommentById} = require("../models/comment-models")
+const {selectCommentByArticleId , selectPostByArticleId, selectDeleteCommentById , selectPatchCommentByCommentId} = require("../models/comment-models")
 
 exports.getCommentByArticleId = (req,res,next) => {
     const articleId = req.params.article_id;
@@ -34,4 +34,15 @@ exports.deleteCommentByCommentId = (req,res,next) => {
     }).catch((err) => {
       next(err)
     });
+}
+
+exports.patchCommentByCommentId = (req,res,next) => {
+  const { comment_id } = req.params;
+  const { inc_votes } = req.body;
+  
+  selectPatchCommentByCommentId(inc_votes, comment_id).then((response) => {
+      res.status(200).send({comment : response[0]})
+  }).catch((err) => {
+    next(err)
+  })
 }

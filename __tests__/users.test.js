@@ -44,7 +44,6 @@ describe.only('/api/users', () => {
                .get("/api/users/wrongusername")
                .expect(404)
                .then((response) => {
-                console.log(response);
                 expect(response.body.msg).toBe("Not found")
          })
     });

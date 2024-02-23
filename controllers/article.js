@@ -1,4 +1,4 @@
-const { selectArticleById, selectAllArticles , selectPatchArticleById} = require('../models/article-models');
+const { selectArticleById, selectAllArticles , selectPatchArticleById, selectPostArticle} = require('../models/article-models');
 
 exports.getArticleById = (req, res, next) => {
     const {article_id} = req.params;
@@ -37,4 +37,23 @@ exports.updateArticleByArticleId = (req,res,next) => {
   }).catch((error) => {
     next(error)
   });
+}
+
+exports.postArticle = (req,res,next) => {
+  const { author, title, body, topic , article_img_url } = req.body;
+
+  const articleData = {
+      author,
+      title,
+      body,
+      topic,
+      article_img_url: article_img_url || "https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?w=700&h=700"
+  };
+
+    selectPostArticle(articleData).then((response) => {
+      
+    res.status(201).send({article : response})
+    }).catch((err) =>{
+      next(err)
+    })
 }

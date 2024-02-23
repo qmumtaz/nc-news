@@ -81,3 +81,21 @@ exports.selectPatchArticleById= ( newVote , article_id) => {
     });
 
 }
+
+
+exports.selectPostArticle = (article) => {
+    let query = `
+    INSERT INTO articles 
+        (author, title, body, topic, votes, article_img_url)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`;
+
+
+const votes = article.votes || 0;
+
+return db.query(query, [article.author, article.title, article.body, article.topic, votes, article.article_img_url])
+    .then(({ rows }) => {
+        return rows[0]; 
+    })
+    
+}

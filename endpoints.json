@@ -142,7 +142,7 @@
 		}
     }
   },
-  "GET /api/users/1": {
+  "GET /api/users/tickle122": {
     "description": "returns the user by the id",
     "queries": [ ],
     "exampleResponse": {
@@ -163,6 +163,22 @@
       "author": "butter_bridge",
       "votes": 17,
       "created_at": "2020-04-06T12:17:00.000Z"
+    }
+  },
+  "POST /api/articles": {
+    "description": "returns with the correct article added",
+    "queries": [ {  }],
+    "exampleResponse": {
+      "article": {
+        "article_id": 67,
+        "title": "new post article",
+        "topic": "coding",
+        "author": "tickle122",
+        "body": "lorem ipsum dolor",
+        "created_at": "2024-02-23T15:18:34.570Z",
+        "votes": 0,
+        "article_img_url": "https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?w=700&h=700"
+      }
     }
   }
 }

@@ -170,7 +170,7 @@ describe("/api/articles", () => {
       });
   });
 
-  test("PATCH: 200 response should return with an array of objects", () => {
+  test("PATCH: 200 response should return article updated from the id", () => {
     const votes = {
       inc_votes: 10,
     };
@@ -184,7 +184,7 @@ describe("/api/articles", () => {
       });
   });
 
-  test("PATCH: 200 response should return with an array of objects", () => {
+  test("PATCH: 200 response should article updated updated from the id ", () => {
     const votes = {
       inc_votes: 10,
     };

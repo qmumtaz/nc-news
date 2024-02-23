@@ -136,6 +136,57 @@ describe('/api/article/:article_1/comments', () => {
             expect(response.body.msg).toBe("Bad request");
           }) 
       });
-    
+     
+      test("PATCH: 200 response should return with comment updated from the id", () => {
+        const votes = {
+          inc_votes: 1,
+        };
+        return request(app)
+          .patch("/api/comments/1")
+          .send(votes)
+          .expect(200)
+          .then((response) => {
+            const comments = response.body.comment;
+             expect(comments.votes).toBe(17)
+          });
+      });
 
+      test("PATCH: 404 response when given  non-existent id for /api/comments/:id", () => {
+        const votes = {
+          inc_votes: 10,
+        };
+        return request(app)
+          .patch("/api/comments/9999")
+          .send(votes)
+          .expect(404)
+          .then((response) => {
+            expect(response.body.msg).toBe("comment not found");
+          });
+      });
+      
+      test("PATCH: 404 response when given the wrong data type for id e.g /api/comments/:string", () => {
+        const votes = {
+          inc_votes: 10,
+        };
+        return request(app)
+          .patch("/api/comments/adasd")
+          .send(votes)
+          .expect(400)
+          .then((response) => {
+            expect(response.body.msg).toBe("Bad request");
+          });
+      });
+
+      test("PATCH: 404 response when given given non-existent id for /api/comments/:id", () => {
+        const votes = {
+          inc_votes: "increased by 10",
+        };
+        return request(app)
+          .patch("/api/comments/adasd")
+          .send(votes)
+          .expect(400)
+          .then((response) => {
+            expect(response.body.msg).toBe("Bad request");
+          });
+      });
 })

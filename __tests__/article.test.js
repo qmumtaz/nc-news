@@ -224,7 +224,70 @@ describe("/api/articles", () => {
       });
   });
 
+  test('POST:201 response with the correct article created', () => {
+    const newPost = {
+      author: "butter_bridge",
+      title: "new post article",
+      body: "lorem ipsum dolor",
+      topic: "mitch"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(newPost)
+      .expect(201)
+      .then((response) => {
+        const article = response._body.article;
+        
+        expect(article.title).toBe('new post article');
+        expect(article.article_id).toBe(14);
+        expect(article.topic).toBe('mitch');
+        expect(article.body).toBe('lorem ipsum dolor');
+      });
+      
+  });
+
+  test('POST: 400 response with the responds with bad request when no author is given', () => {
+    const newPost = {
+      title: "new post article",
+      body: "lorem ipsum dolor",
+      topic: "mitch"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(newPost)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe('Bad request');
+      }) 
+  });
+
+  test('POST: 400 response with the responds with bad request when no body is given', () => {
+    const newPost = {
+      title: "new post article",
+      topic: "mitch"
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(newPost)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe('Bad request');
+      }) 
+  });
   
+  test('POST: 400 response with the responds with bad request when no topic is given', () => {
+    const newPost = {
+      title: "new post article",
+      body: "lorem ipsum dolor"     
+    };
+    return request(app)
+      .post("/api/articles")
+      .send(newPost)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe('Bad request');
+      }) 
+  });
 
 
 });

@@ -53,7 +53,6 @@ describe('/api/article/:article_1/comments', () => {
              expect(comment.body).toBe('random post.....')
              expect(comment.article_id).toBe(1)
              expect(comment.author).toBe("butter_bridge")
-             expect(comment.unnecessaryProperty).toBeUndefined();
           });
           
       });

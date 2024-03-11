@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 
+
+app.use(cors());
 const {topicsRouter} = require("./routes/topics-router")
 const {userRouter} = require("./routes/user-router")
 const {commentRouter} = require("./routes/comment-router")

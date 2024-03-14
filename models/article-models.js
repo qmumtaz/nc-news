@@ -47,7 +47,7 @@ exports.selectAllArticles = (topic, sort_by = "created_at", order = "DESC") => {
 
     query += ` GROUP BY  articles.article_id`
 
-    const validSortedBy = ['created_at', 'votes', 'author', 'article_id','title','topic'];
+    const validSortedBy = ['created_at', 'votes', 'author', 'article_id','title','topic', 'comment_count' ];
 
     if (!validSortedBy.includes(sort_by)) {
         return Promise.reject({ status: 400, msg: 'Bad request' });

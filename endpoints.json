@@ -107,7 +107,7 @@
       ]
     }
   },
-  "PATCH /api/articles/1/comments": {
+  "PATCH /api/articles/1": {
     "description": "responds with object with the article",
     "queries": [{ "inc_votes" : 1 } ],
     "exampleResponse": {

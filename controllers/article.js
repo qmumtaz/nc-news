@@ -47,7 +47,7 @@ exports.postArticle = (req,res,next) => {
       title,
       body,
       topic,
-      article_img_url: article_img_url || "https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?w=700&h=700"
+      article_img_url: article_img_url
   };
 
     selectPostArticle(articleData).then((response) => {
